@@ -1,0 +1,98 @@
+{
+  "name": "vite-vue3-electron",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Vue3 + Typescript + Vite + Electron",
+  "main": ".webpack/main",
+  "scripts": {
+    "dev": "cross-env IS_DEV=true concurrently -k -r \"vite\" \"electron-forge start\"",
+    "build": "vue-tsc --noEmit && vite build && electron-forge make",
+    "package": "vue-tsc --noEmit && vite build && electron-forge package",
+    "lint": "eslint --ext .ts,.tsx ."
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "rollup-plugin-obfuscator": "^0.2.1",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "concurrently": "^7.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.0.0",
+    "electron": "17.0.1",
+    "eslint": "^8.0.1",
+    "eslint-plugin-import": "^2.25.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.1",
+    "javascript-obfuscator": "^4.0.0",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.0.0",
+    "ts-loader": "^9.2.2",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vue-tsc": "^0.29.8",
+    "webpack-obfuscator": "^3.5.1",
+    "yarn": "^1.22.17"
+  },
+  "keywords": [],
+  "author": "admin",
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "vite-vue3-electron"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./app/index.html",
+                  "js": "./app/renderer.ts",
+                  "name": "renderer_window"
+                }
+              ]
+            },
+            "port": 3002
+          }
+        ]
+      ]
+    }
+  }
+}
