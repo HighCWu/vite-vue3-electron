@@ -20,12 +20,17 @@
  *    width: 800,
  *    height: 600,
  *    webPreferences: {
- *      nodeIntegration: true
+ *      contextIsolation: false,
+ *      nodeIntegration: true,
+ *      nodeIntegrationInWorker: true, // for worker
+ *      nodeIntegrationInSubFrames: true, // for iframe
  *    }
  *  });
  * ```
  */
 
-import './index.css';
+import './index.css'
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+console.log(
+  '👋 This message is being logged by "renderer.js", included via webpack'
+)
